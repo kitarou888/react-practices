@@ -6,57 +6,62 @@ import { MemoEditor } from "./MemoEditor";
 
 function App() {
   const [memos, setMemos] = useState(initialMemoList);
+  const [editId, setEditId] = useState(null);
 
   const handleCreate = () => {
+    const newId = Math.max(...memos.map((memo) => memo.id)) + 1;
     setMemos([
       {
-        id: Math.max(...memos.map((memo) => memo.id)) + 1,
+        id: newId,
         content: "新規メモ",
         isEdit: true,
       },
       ...memos,
     ]);
+    setEditId(newId);
   };
 
-  const handleUpdate = (id, content) => {
+  const handleEdit = (id) => {
+    setEditId(id);
+  };
+
+  const handleUpdate = (content) => {
     setMemos(
       memos.map((memo) => {
-        if (true) {
+        if (memo.id === editId) {
           return { ...memo, content: content };
         } else {
           return memo;
         }
       })
     );
+    setEditId(null);
   };
 
   const handleDelete = (id) => {
     setMemos(memos.filter((memo) => memo.id !== id));
-  };
-
-  const handleEdit = (id) => {
-    setMemos(
-      memos.map((memo) => {
-        if (memo.id === id) {
-          return { ...memo, isEdit: true };
-        } else {
-          return memo;
-        }
-      })
-    );
+    setEditId(null);
   };
 
   return (
     <div className="container">
-      <section className="memo-list">
-        <MemoList memos={memos} onCreate={handleCreate} onEdit={handleEdit} />
-      </section>
-      <section className="memo-editor">
-        <MemoEditor
+      <section className="list-container">
+        <MemoList
           memos={memos}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
+          editId={editId}
+          onCreate={handleCreate}
+          onEdit={handleEdit}
+          disabled={!!editId}
         />
+      </section>
+      <section className="editor-container">
+        {editId && (
+          <MemoEditor
+            memo={memos.find((memo) => memo.id === editId)}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
       </section>
     </div>
   );

@@ -6,13 +6,35 @@
   background-color: #282c34;
 }
 
-.memo-list {
-  min-height: 100vh;
-  font-size: calc(10px + 2vmin);
+.list-container {
+  width: 70%;
+  font-size: 16px;
   color: white;
+  min-height: 100vh;
 }
 
-.memo-editor {
+.list-container button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.editor-container {
+  width: 30%;
   display: flex;
   flex-direction: column;
 }
@@ -31,4 +53,16 @@ textarea {
 .button-container {
   display: flex;
   justify-content: space-between;
+}
+
+.editor-container button {
+  font: inherit;
+}
+
+.editor-container .update-button {
+  width: 75%;
+}
+
+.editor-container .delete-button {
+  width: 20%;
 }

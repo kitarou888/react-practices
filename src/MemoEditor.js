@@ -1,20 +1,34 @@
-export function MemoEditor({ memos, onUpdate, onDelete }) {
+import { useState } from "react";
+
+export function MemoEditor({ memo, onUpdate, onDelete }) {
+  const [content, setContent] = useState(memo.content);
+
   return (
     <>
-      {memos.map((memo) => (
-        <>
-          <div>
-            <textarea autoFocus rows="5" cols="33" value={memo.content} />
-          </div>
-          <div className="button-container">
-            <button onClick={() => onUpdate(memo.id, memo.content)}>
-              編集
-            </button>
-            <button onClick={() => onDelete(memo.id)}>削除</button>
-          </div>
-        </>
-      ))}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onUpdate(content);
+        }}
+      >
+        <div>
+          <textarea
+            autoFocus
+            rows="5"
+            cols="33"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+        <div className="button-container">
+          <button className="update-button" type="submit">
+            編集
+          </button>
+          <button className="delete-button" onClick={() => onDelete(memo.id)}>
+            削除
+          </button>
+        </div>
+      </form>
     </>
   );
 }
-// .find((memo) => memo.isEdit)
