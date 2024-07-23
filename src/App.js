@@ -1,24 +1,27 @@
 import { useState } from "react";
 import "./App.css";
-import { initialMemoList } from "./data";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
 
 function App() {
-  const [memos, setMemos] = useState(initialMemoList);
+  const [memos, setMemos] = useState(
+    JSON.parse(localStorage.getItem("fjordPracticeReact")) ?? []
+  );
   const [editId, setEditId] = useState(null);
 
   const handleCreate = () => {
-    const newId = Math.max(...memos.map((memo) => memo.id)) + 1;
-    setMemos([
+    const nextId =
+      memos.length > 0 ? Math.max(...memos.map((memo) => memo.id)) + 1 : 1;
+    const nextMemos = [
       {
-        id: newId,
+        id: nextId,
         content: "新規メモ",
-        isEdit: true,
       },
       ...memos,
-    ]);
-    setEditId(newId);
+    ];
+    setMemos(nextMemos);
+    setEditId(nextId);
+    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
 
   const handleEdit = (id) => {
@@ -26,21 +29,23 @@ function App() {
   };
 
   const handleUpdate = (content) => {
-    setMemos(
-      memos.map((memo) => {
-        if (memo.id === editId) {
-          return { ...memo, content: content };
-        } else {
-          return memo;
-        }
-      })
-    );
+    const nextMemos = memos.map((memo) => {
+      if (memo.id === editId) {
+        return { ...memo, content: content };
+      } else {
+        return memo;
+      }
+    });
+    setMemos(nextMemos);
     setEditId(null);
+    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
 
   const handleDelete = (id) => {
-    setMemos(memos.filter((memo) => memo.id !== id));
+    const nextMemos = memos.filter((memo) => memo.id !== id);
+    setMemos(nextMemos);
     setEditId(null);
+    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
 
   return (
