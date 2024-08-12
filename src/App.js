@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
@@ -24,7 +24,6 @@ function App() {
     ];
     setMemos(nextMemos);
     setEditId(nextId);
-    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
 
   const handleEdit = (id) => {
@@ -41,15 +40,17 @@ function App() {
     });
     setMemos(nextMemos);
     setEditId(null);
-    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
 
   const handleDelete = (id) => {
     const nextMemos = memos.filter((memo) => memo.id !== id);
     setMemos(nextMemos);
     setEditId(null);
-    localStorage.setItem("fjordPracticeReact", JSON.stringify(nextMemos));
   };
+
+  useEffect(() => {
+    localStorage.setItem("fjordPracticeReact", JSON.stringify(memos));
+  }, [memos]);
 
   return (
     <div className="container">
