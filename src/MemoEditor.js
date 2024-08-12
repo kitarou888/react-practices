@@ -15,7 +15,6 @@ export function MemoEditor({ memo, onUpdate, onDelete }) {
           <textarea
             autoFocus
             rows="5"
-            cols="33"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />

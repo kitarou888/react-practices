@@ -1,4 +1,4 @@
-export function MemoList({ memos, editId, onCreate, onEdit, disabled }) {
+export function MemoList({ memos, editId, onCreate, onEdit }) {
   const classNameButton = !editId ? "cursor-pointer" : "";
 
   return (
@@ -10,7 +10,7 @@ export function MemoList({ memos, editId, onCreate, onEdit, disabled }) {
             onClick={() => {
               onEdit(memo.id);
             }}
-            disabled={disabled}
+            disabled={memo.id === editId}
           >
             {memo.content.split("\n")[0]}
           </button>
@@ -19,7 +19,7 @@ export function MemoList({ memos, editId, onCreate, onEdit, disabled }) {
       <button
         className={classNameButton}
         onClick={onCreate}
-        disabled={disabled}
+        disabled={!!editId}
       >
         +
       </button>

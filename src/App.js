@@ -59,12 +59,12 @@ function App() {
           editId={editId}
           onCreate={handleCreate}
           onEdit={handleEdit}
-          disabled={!!editId}
         />
       </section>
       <section className="editor-container">
         {editId && (
           <MemoEditor
+            key={editId}
             memo={memos.find((memo) => memo.id === editId)}
             onUpdate={handleUpdate}
             onDelete={handleDelete}
