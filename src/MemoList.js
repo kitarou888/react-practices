@@ -1,9 +1,11 @@
+import { useMemo } from "react";
+
 export function MemoList({ memos, editId, onCreate, onEdit }) {
   const classNameButton = !editId ? "cursor-pointer" : "";
 
-  return (
-    <>
-      {memos.map((memo) => (
+  const memoComponents = useMemo(
+    () =>
+      memos.map((memo) => (
         <div key={memo.id}>
           <button
             className={classNameButton + (memo.id !== editId && " underline")}
@@ -15,7 +17,13 @@ export function MemoList({ memos, editId, onCreate, onEdit }) {
             {memo.content.split("\n")[0]}
           </button>
         </div>
-      ))}
+      )),
+    [memos, editId, classNameButton, onEdit],
+  );
+
+  return (
+    <>
+      {memoComponents}
       <button
         className={classNameButton}
         onClick={onCreate}

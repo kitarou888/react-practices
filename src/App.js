@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
@@ -9,6 +9,11 @@ function App() {
 
   const [memos, setMemos] = useState(initialMemos);
   const [editId, setEditId] = useState(null);
+
+  const selectedMemo = useMemo(
+    () => memos.find((memo) => memo.id === editId),
+    [editId, memos],
+  );
 
   const handleCreate = () => {
     const nextId =
@@ -64,7 +69,7 @@ function App() {
         {editId && (
           <MemoEditor
             key={editId}
-            memo={memos.find((memo) => memo.id === editId)}
+            memo={selectedMemo}
             onUpdate={handleUpdate}
             onDelete={handleDelete}
           />
