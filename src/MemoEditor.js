@@ -21,7 +21,7 @@ export function MemoEditor({ memo, onUpdate, onDelete }) {
         </div>
         <div className="button-container">
           <button className="update-button" type="submit">
-            編集
+            更新
           </button>
           <button className="delete-button" onClick={() => onDelete(memo.id)}>
             削除

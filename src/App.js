@@ -3,21 +3,19 @@ import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
 
-const initialMemos =
-  JSON.parse(localStorage.getItem("fjordPracticeReact")) ?? [];
-let nextId =
-  initialMemos.length === 0
-    ? 0
-    : Math.max(...initialMemos.map((memo) => memo.id));
-
 function App() {
+  const memoDataKey = "memoDataKey";
+  const initialMemos = JSON.parse(localStorage.getItem(memoDataKey)) ?? [];
+
   const [memos, setMemos] = useState(initialMemos);
   const [editId, setEditId] = useState(null);
 
   const handleCreate = () => {
+    const nextId =
+      memos.length === 0 ? 1 : Math.max(...memos.map((memo) => memo.id)) + 1;
     const nextMemos = [
       {
-        id: ++nextId,
+        id: nextId,
         content: "新規メモ",
       },
       ...memos,
@@ -49,7 +47,7 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem("fjordPracticeReact", JSON.stringify(memos));
+    localStorage.setItem(memoDataKey, JSON.stringify(memos));
   }, [memos]);
 
   return (
