@@ -1,9 +1,18 @@
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.header button {
+  font: inherit;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   text-align: center;
-  background-color: #282c34;
 }
 
 .list-container {
@@ -48,6 +57,9 @@ textarea {
   border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px #999;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .button-container {

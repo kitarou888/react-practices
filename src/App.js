@@ -2,8 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
+import { LoginContext } from "./LoginContext";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
   const memoDataKey = "memoDataKey";
   const initialMemos = JSON.parse(localStorage.getItem(memoDataKey)) ?? [];
 
@@ -14,6 +17,8 @@ function App() {
     () => memos.find((memo) => memo.id === editId),
     [editId, memos],
   );
+
+  const handleLogin = () => setIsLogin(!isLogin);
 
   const handleCreate = () => {
     const nextId =
@@ -56,26 +61,37 @@ function App() {
   }, [memos]);
 
   return (
-    <div className="container">
-      <section className="list-container">
-        <MemoList
-          memos={memos}
-          editId={editId}
-          onCreate={handleCreate}
-          onEdit={handleEdit}
-        />
-      </section>
-      <section className="editor-container">
-        {editId && (
-          <MemoEditor
-            key={editId}
-            memo={selectedMemo}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-          />
-        )}
-      </section>
-    </div>
+    <>
+      <header className="header">
+        <div>
+          <button onClick={handleLogin}>
+            {isLogin ? "ログアウト" : "ログイン"}
+          </button>
+        </div>
+      </header>
+      <LoginContext.Provider value={isLogin}>
+        <main className="container">
+          <section className="list-container">
+            <MemoList
+              memos={memos}
+              editId={editId}
+              onCreate={handleCreate}
+              onEdit={handleEdit}
+            />
+          </section>
+          <section className="editor-container">
+            {editId && (
+              <MemoEditor
+                key={editId}
+                memo={selectedMemo}
+                onUpdate={handleUpdate}
+                onDelete={handleDelete}
+              />
+            )}
+          </section>
+        </main>
+      </LoginContext.Provider>
+    </>
   );
 }
 

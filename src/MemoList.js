@@ -1,6 +1,8 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
+import { LoginContext } from "./LoginContext";
 
 export function MemoList({ memos, editId, onCreate, onEdit }) {
+  const isLogin = useContext(LoginContext);
   const classNameButton = !editId ? "cursor-pointer" : "";
 
   const memoComponents = useMemo(
@@ -24,13 +26,15 @@ export function MemoList({ memos, editId, onCreate, onEdit }) {
   return (
     <>
       {memoComponents}
-      <button
-        className={classNameButton}
-        onClick={onCreate}
-        disabled={!!editId}
-      >
-        +
-      </button>
+      {isLogin && (
+        <button
+          className={classNameButton}
+          onClick={onCreate}
+          disabled={!!editId}
+        >
+          +
+        </button>
+      )}
     </>
   );
 }
