@@ -78,3 +78,12 @@ textarea {
 .editor-container .delete-button {
   width: 20%;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  font-size: 60px;
+}

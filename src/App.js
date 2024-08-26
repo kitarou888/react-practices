@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
-import { LoginContext } from "./LoginContext";
+import { LoginProvider } from "./LoginProvider";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -18,7 +18,15 @@ function App() {
     [editId, memos],
   );
 
-  const handleLogin = () => setIsLogin(!isLogin);
+  const handleLogin = () => {
+    const nextIsLogin = !isLogin;
+    if (nextIsLogin) {
+      setIsLogin(null);
+      setTimeout(() => setIsLogin(nextIsLogin), 2000);
+    } else {
+      setIsLogin(nextIsLogin);
+    }
+  };
 
   const handleCreate = () => {
     const nextId =
@@ -69,7 +77,7 @@ function App() {
           </button>
         </div>
       </header>
-      <LoginContext.Provider value={isLogin}>
+      <LoginProvider isLogin={isLogin}>
         <main className="container">
           <section className="list-container">
             <MemoList
@@ -90,7 +98,7 @@ function App() {
             )}
           </section>
         </main>
-      </LoginContext.Provider>
+      </LoginProvider>
     </>
   );
 }
