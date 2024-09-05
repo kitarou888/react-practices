@@ -20,7 +20,7 @@ function App() {
 
   const handleLogin = () => {
     const nextIsLogin = !isLogin;
-    if (nextIsLogin) {
+    if (!isLogin) {
       setIsLogin(null);
       setTimeout(() => setIsLogin(nextIsLogin), 2000);
     } else {
