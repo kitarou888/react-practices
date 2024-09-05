@@ -3,9 +3,10 @@ import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
 import { LoginProvider } from "./LoginProvider";
+import { useLogin } from "./useLogin";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, loginButton] = useLogin();
 
   const memoDataKey = "memoDataKey";
   const initialMemos = JSON.parse(localStorage.getItem(memoDataKey)) ?? [];
@@ -17,16 +18,6 @@ function App() {
     () => memos.find((memo) => memo.id === editId),
     [editId, memos],
   );
-
-  const handleLogin = () => {
-    const nextIsLogin = !isLogin;
-    if (!isLogin) {
-      setIsLogin(null);
-      setTimeout(() => setIsLogin(nextIsLogin), 2000);
-    } else {
-      setIsLogin(nextIsLogin);
-    }
-  };
 
   const handleCreate = () => {
     const nextId =
@@ -71,11 +62,7 @@ function App() {
   return (
     <>
       <header className="header">
-        <div>
-          <button onClick={handleLogin}>
-            {isLogin ? "ログアウト" : "ログイン"}
-          </button>
-        </div>
+        <div>{loginButton}</div>
       </header>
       <LoginProvider isLogin={isLogin}>
         <main className="container">
