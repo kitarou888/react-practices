@@ -2,8 +2,12 @@ import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import { MemoList } from "./MemoList";
 import { MemoEditor } from "./MemoEditor";
+import { LoginProvider } from "./LoginProvider";
+import { useLogin } from "./useLogin";
 
 function App() {
+  const [isLogin, loginButton] = useLogin();
+
   const memoDataKey = "memoDataKey";
   const initialMemos = JSON.parse(localStorage.getItem(memoDataKey)) ?? [];
 
@@ -56,26 +60,33 @@ function App() {
   }, [memos]);
 
   return (
-    <div className="container">
-      <section className="list-container">
-        <MemoList
-          memos={memos}
-          editId={editId}
-          onCreate={handleCreate}
-          onEdit={handleEdit}
-        />
-      </section>
-      <section className="editor-container">
-        {editId && (
-          <MemoEditor
-            key={editId}
-            memo={selectedMemo}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-          />
-        )}
-      </section>
-    </div>
+    <>
+      <header className="header">
+        <div>{loginButton}</div>
+      </header>
+      <LoginProvider isLogin={isLogin}>
+        <main className="container">
+          <section className="list-container">
+            <MemoList
+              memos={memos}
+              editId={editId}
+              onCreate={handleCreate}
+              onEdit={handleEdit}
+            />
+          </section>
+          <section className="editor-container">
+            {editId && (
+              <MemoEditor
+                key={editId}
+                memo={selectedMemo}
+                onUpdate={handleUpdate}
+                onDelete={handleDelete}
+              />
+            )}
+          </section>
+        </main>
+      </LoginProvider>
+    </>
   );
 }
 
